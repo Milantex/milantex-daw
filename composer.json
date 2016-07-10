@@ -35,5 +35,6 @@
         "psr-4": {
             "Milantex\\DAW\\": "src/"
         }
-    }
+    },
+	"version" : "1.0.0"
 }
