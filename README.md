@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Milantex/milantex-daw.svg?branch=master)](https://travis-ci.org/Milantex/milantex-daw)
+
 # What is Milantex-DAW?
 This package provides a mechanism to easily connect and use a MySQL/MariaDB database. Check the text below for information about how to install it and to see examples of how to use it.
 
