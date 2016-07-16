@@ -43,7 +43,7 @@ To start using the DAW, first require the composer's autoload script:
 require_once 'vendor/autoload.php';
 ```
 After that, you can create an instance of Milantex\DAW\DataBase:
-```
+```php
 use Milantex\DAW\DataBase;
 
 # Open a connection using the DAW
