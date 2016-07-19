@@ -36,5 +36,8 @@
             "Milantex\\DAW\\": "src/"
         }
     },
+    "scripts": {
+        "report-coverage": "codecov"
+    },
     "version" : "1.0.2"
 }
