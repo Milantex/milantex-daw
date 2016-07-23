@@ -29,43 +29,13 @@
          * @param string $dbName
          * @param string $dbUser
          * @param string $dbPass
-         * @return \PDO
+         * @throws Exception
          */
         public function __construct(string $dbHost, string $dbName, string $dbUser, string $dbPass) {
             try {
                 $this->connection = new \PDO('mysql:hostname=' . $dbHost . ';dbname=' . $dbName, $dbUser, $dbPass);
             } catch (Exception $e) {
-                // TODO: Deal with this later
-            }
-        }
-
-        /**
-         * Performs a SELECT SQL query with given parameters for the selected
-         * connection and can be made to fetch a single result or all results.
-         * @param string $sql
-         * @param array $parameters
-         * @param bool $return_one
-         * @return NULL|stdClass|array
-         */
-        private function select($sql, $parameters = [], $return_one = TRUE) {
-            if (!$this->connection) {
-                return ($return_one == TRUE) ? NULL : [];
-            }
-
-            $prep = $this->connection->prepare($sql);
-            if (!$prep) {
-                return ($return_one == TRUE) ? NULL : [];
-            }
-
-            $res = $prep->execute($parameters);
-            if (!$res) {
-                return ($return_one == TRUE) ? NULL : [];
-            }
-
-            if ($return_one == TRUE) {
-                return $prep->fetch(\PDO::FETCH_OBJ);
-            } else {
-                return $prep->fetchAll(\PDO::FETCH_OBJ);
+                throw new Exception("Could not connect to the database.");
             }
         }
 
@@ -77,7 +47,21 @@
          * @return NULL|stdClass
          */
         public function selectOne($sql, $parameters = []) {
-            return $this->select($sql, $parameters, TRUE);
+            if (!$this->connection) {
+                return NULL;
+            }
+
+            $prep = $this->connection->prepare($sql);
+            if (!$prep) {
+                return NULL;
+            }
+
+            $res = $prep->execute($parameters);
+            if (!$res) {
+                return NULL;
+            }
+
+            return $prep->fetch(\PDO::FETCH_OBJ);
         }
 
         /**
@@ -85,10 +69,24 @@
          * of an array of records being returned.
          * @param string $sql
          * @param array $parameters
-         * @return NULL|stdClass
+         * @return array
          */
         public function selectMany($sql, $parameters = []) {
-            return $this->select($sql, $parameters, FALSE);
+            if (!$this->connection) {
+                return [];
+            }
+
+            $prep = $this->connection->prepare($sql);
+            if (!$prep) {
+                return [];
+            }
+
+            $res = $prep->execute($parameters);
+            if (!$res) {
+                return [];
+            }
+
+            return $prep->fetchAll(\PDO::FETCH_OBJ);
         }
 
         /**
