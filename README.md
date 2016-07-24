@@ -1,4 +1,8 @@
-[![Build Status](https://travis-ci.org/Milantex/milantex-daw.svg?branch=master)](https://travis-ci.org/Milantex/milantex-daw) [![codecov](https://codecov.io/gh/Milantex/milantex-daw/branch/master/graph/badge.svg)](https://codecov.io/gh/Milantex/milantex-daw)
+[![Build Status](https://travis-ci.org/Milantex/milantex-daw.svg?branch=master)](https://travis-ci.org/Milantex/milantex-daw)
+[![codecov](https://codecov.io/gh/Milantex/milantex-daw/branch/master/graph/badge.svg)](https://codecov.io/gh/Milantex/milantex-daw)
+[![Latest Stable Version](https://poser.pugx.org/milantex/daw/v/stable)](https://packagist.org/packages/milantex/daw)
+[![Total Downloads](https://poser.pugx.org/milantex/daw/downloads)](https://packagist.org/packages/milantex/daw)
+[![License](https://poser.pugx.org/milantex/daw/license)](https://packagist.org/packages/milantex/daw)
 
 # What is Milantex-DAW?
 This package provides a mechanism to easily connect and use a MySQL/MariaDB database. Check the text below for information about how to install it and to see examples of how to use it.
