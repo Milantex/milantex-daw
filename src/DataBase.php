@@ -34,8 +34,8 @@
         public function __construct(string $dbHost, string $dbName, string $dbUser, string $dbPass) {
             try {
                 $this->connection = new \PDO('mysql:hostname=' . $dbHost . ';dbname=' . $dbName, $dbUser, $dbPass);
-            } catch (Exception $e) {
-                throw new Exception("Could not connect to the database.");
+            } catch (\Exception $e) {
+                // L8R
             }
         }
 

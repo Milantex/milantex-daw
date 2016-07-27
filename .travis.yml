@@ -5,6 +5,8 @@ php:
 
 addons:
   mariadb: '10.2'
+  code_climate:
+    repo_token: f8c078c2a99177d72ef3543760c5ece9e09ef11abccd2cd3367d57acdc6cd996
 
 install:
   - composer install --no-interaction
