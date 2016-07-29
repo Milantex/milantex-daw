@@ -3,6 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/milantex/daw/v/stable)](https://packagist.org/packages/milantex/daw)
 [![Total Downloads](https://poser.pugx.org/milantex/daw/downloads)](https://packagist.org/packages/milantex/daw)
 [![License](https://poser.pugx.org/milantex/daw/license)](https://packagist.org/packages/milantex/daw)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/39907987-6b7f-42ee-9ea9-aebb60ecc7e6/mini.png)](https://insight.sensiolabs.com/projects/39907987-6b7f-42ee-9ea9-aebb60ecc7e6)
 
 # What is Milantex-DAW?
 This package provides a mechanism to easily connect and use a MySQL/MariaDB database. Check the text below for information about how to install it and to see examples of how to use it.
