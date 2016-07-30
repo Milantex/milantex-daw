@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/Milantex/milantex-daw.svg?branch=master)](https://travis-ci.org/Milantex/milantex-daw)
 [![codecov](https://codecov.io/gh/Milantex/milantex-daw/branch/master/graph/badge.svg)](https://codecov.io/gh/Milantex/milantex-daw)
+[![Code Climate](https://codeclimate.com/github/Milantex/milantex-daw/badges/gpa.svg)](https://codeclimate.com/github/Milantex/milantex-daw)
 [![Latest Stable Version](https://poser.pugx.org/milantex/daw/v/stable)](https://packagist.org/packages/milantex/daw)
 [![Total Downloads](https://poser.pugx.org/milantex/daw/downloads)](https://packagist.org/packages/milantex/daw)
 [![License](https://poser.pugx.org/milantex/daw/license)](https://packagist.org/packages/milantex/daw)
