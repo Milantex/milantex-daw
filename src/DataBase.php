@@ -9,7 +9,7 @@
          * The PDO object for the open connection
          * @var PDO
          */
-        private $connection;
+        private $connection = FALSE;
 
         /**
          * Stores the error recorded after the last execute method was ran
@@ -24,19 +24,43 @@
         private $lastAffectedRowCount = 0;
 
         /**
+         * Database host name
+         * @var string
+         */
+        private $dbHost;
+        
+        /**
+         * Database name
+         * @var string
+         */
+        private $dbName;
+        
+        /**
+         * Database user
+         * @var string
+         */
+        private $dbUser;
+        
+        /**
+         * Database user's password
+         * @var string
+         */
+        private $dbPass;
+
+        /**
          * The DataBase class constructor function
          * @param string $dbHost
          * @param string $dbName
          * @param string $dbUser
          * @param string $dbPass
-         * @throws Exception
          */
         public function __construct(string $dbHost, string $dbName, string $dbUser, string $dbPass) {
-            try {
-                $this->connection = new \PDO('mysql:hostname=' . $dbHost . ';dbname=' . $dbName, $dbUser, $dbPass);
-            } catch (\Exception $e) {
-                // L8R
-            }
+            $this->dbHost = $dbHost;
+            $this->dbName = $dbName;
+            $this->dbUser = $dbUser;
+            $this->dbPass = $dbPass;
+
+            $this->reconnect();
         }
 
         /**
@@ -56,8 +80,12 @@
                 return NULL;
             }
 
-            $res = $prep->execute($parameters);
-            if (!$res) {
+            try {
+                $res = $prep->execute($parameters);
+                if (!$res) {
+                    return NULL;
+                }
+            } catch (\Exception $e) {
                 return NULL;
             }
 
@@ -81,8 +109,12 @@
                 return [];
             }
 
-            $res = $prep->execute($parameters);
-            if (!$res) {
+            try {
+                $res = $prep->execute($parameters);
+                if (!$res) {
+                    return [];
+                }
+            } catch (\Exception $e) {
                 return [];
             }
 
@@ -125,6 +157,10 @@
          * @return array|NULL
          */
         public function getLastExecutionError() {
+            if (!$this->connection) {
+                return NULL;
+            }
+
             if (!isset($this->lastExecutionError)) {
                 $this->lastExecutionError = NULL;
             }
@@ -143,6 +179,10 @@
          * @return int|NULL
          */
         public function getLastExecutionAffectedRownCount() {
+            if (!$this->connection) {
+                return NULL;
+            }
+
             if (!isset($this->lastAffectedRowCount)) {
                 $this->lastAffectedRowCount = NULL;
             }
@@ -160,5 +200,19 @@
          */
         public function getLastInsertId() {
             return $this->connection->lastInsertId();
+        }
+
+        /**
+         * Force disconnect from the database
+         */
+        public function disconnect() {
+            $this->connection = NULL;
+        }
+
+        /**
+         * Try to reconnect to the database using stored connection parameters
+         */
+        public function reconnect() {
+            $this->connection = new \PDO('mysql:hostname=' . $this->dbHost . ';dbname=' . $this->dbName, $this->dbUser, $this->dbPass);
         }
     }

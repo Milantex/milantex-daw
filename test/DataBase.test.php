@@ -12,6 +12,63 @@
             $this->assertInstanceOf('\\Milantex\\DAW\\DataBase', $this->database);
         }
 
+        public function testSelectOneOnBadConnection() {
+            $this->database->disconnect();
+            $data = $this->database->selectOne("SELECT 1 author_id, 'Milan' forename, 'Tair' surname FROM DUAL;");
+            $this->assertTrue(is_null($data));
+            $this->database->reconnect();
+        }
+
+        public function testSelectManyOnBadConnection() {
+            $this->database->disconnect();
+            $data = $this->database->selectMany("SELECT 1 product_id, 'Product A' name, 302.99 price FROM DUAL UNION
+                                                 SELECT 2 product_id, 'Product B' name, 100.00 price FROM DUAL;");
+            $this->assertTrue(is_array($data));
+            $this->assertTrue(empty($data));
+            $this->database->reconnect();
+        }
+
+        public function testExecuteOnBadConnection() {
+            $this->database->disconnect();
+            $res = $this->database->execute('CREATE TEMPORARY TABLE php_unit_test_table ( author_id INT(11) AUTO_INCREMENT PRIMARY KEY, name VARCHAR(32), email VARCHAR(255) );');
+            $this->assertTrue(is_null($res));
+            $this->database->reconnect();
+        }
+
+        public function testGetLastExecutionErrorOnBadConnection() {
+            $this->database->disconnect();
+            $res = $this->database->getLastExecutionError();
+            $this->assertTrue(is_null($res));
+            $this->database->reconnect();
+        }
+
+        public function testGetLastExecutionAffectedRownCountOnBadConnection() {
+            $this->database->disconnect();
+            $res = $this->database->getLastExecutionAffectedRownCount();
+            $this->assertTrue(is_null($res));
+            $this->database->reconnect();
+        }
+
+        public function testSelectOneWithBadQuery() {
+            $data = $this->database->selectOne("SELECT 1 author_id AND THE REST IS HISTORY, AS THEY SAY...;");
+            $this->assertTrue(is_null($data));
+        }
+
+        public function testSelectManyWithBadQuery() {
+            $data = $this->database->selectMany("SELECT 1 author_id AND THE REST IS HISTORY, AS THEY SAY...;");
+            $this->assertTrue(empty($data));
+        }
+
+        public function testSelectOneWithBadParameters() {
+            $data = $this->database->selectOne("SELECT * FROM `user` WHERE `username` = ? AND `active` = ?;", ['only one parameter here :( two needed']);
+            $this->assertTrue(is_null($data));
+        }
+
+        public function testSelectManyWithBadParameters() {
+            $data = $this->database->selectMany("SELECT * FROM `post` WHERE `post_id` = ? AND `visible` = ?;", ['only one parameter here :( two needed']);
+            $this->assertTrue(empty($data));
+        }
+
         public function testSelectOne() {
             $data = $this->database->selectOne("SELECT 1 author_id, 'Milan' forename, 'Tair' surname FROM DUAL;");
 
