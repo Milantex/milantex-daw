@@ -50,12 +50,12 @@
         }
 
         public function testSelectOneWithBadQuery() {
-            $data = $this->database->selectOne("SELECT 1 author_id AND THE REST IS HISTORY, AS THEY SAY...;");
+            $data = $this->database->selectOne("SELECT * FROM no_table WHERE no_field = ':this_will_fail';");
             $this->assertTrue(is_null($data));
         }
 
         public function testSelectManyWithBadQuery() {
-            $data = $this->database->selectMany("SELECT 1 author_id AND THE REST IS HISTORY, AS THEY SAY...;");
+            $data = $this->database->selectMany("\\SELECT 1 author_id AND THE REST IS HISTORY, AS THEY SAY...';");
             $this->assertTrue(empty($data));
         }
 
@@ -158,5 +158,17 @@
 
             $lastError = $this->database->getLastExecutionError();
             $this->assertNotNull($lastError, 'The result must not be NULL, because there should be an error.');
+        }
+
+        public function testResetLastExecutionError() {
+            $this->database->resetLastExecutionError();
+            $error = $this->database->getLastExecutionError();
+            $this->assertTrue(is_null($error));
+        }
+
+        public function testResetLastExecutionAffectedRowCount() {
+            $this->database->resetLastExecutionAffectedRowCount();
+            $count = $this->database->getLastExecutionAffectedRownCount();
+            $this->assertSame($count, 0);
         }
     }

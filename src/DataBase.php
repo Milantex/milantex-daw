@@ -76,9 +76,6 @@
             }
 
             $prep = $this->connection->prepare($sql);
-            if (!$prep) {
-                return NULL;
-            }
 
             try {
                 $res = $prep->execute($parameters);
@@ -105,9 +102,6 @@
             }
 
             $prep = $this->connection->prepare($sql);
-            if (!$prep) {
-                return [];
-            }
 
             try {
                 $res = $prep->execute($parameters);
@@ -140,15 +134,26 @@
             }
 
             $res = $prep->execute($parameters);
+
+            $this->setLastError($prep, $res);
+
+            return $res;
+        }
+
+        /**
+         * This method sets the value of the last execution error's result state
+         * @param \PDOStatement $prep
+         * @param string $res
+         */
+        private function setLastError(\PDOStatement $prep, $res) {
             if (!$res) {
                 $this->lastExecutionError = $prep->errorInfo();
                 $this->lastAffectedRowCount = NULL;
-            } else {
-                $this->lastExecutionError = NULL;
-                $this->lastAffectedRowCount = $prep->rowCount();
+                return;
             }
 
-            return $res;
+            $this->lastExecutionError = NULL;
+            $this->lastAffectedRowCount = $prep->rowCount();
         }
 
         /**
@@ -157,11 +162,7 @@
          * @return array|NULL
          */
         public function getLastExecutionError() {
-            if (!$this->connection) {
-                return NULL;
-            }
-
-            if (!isset($this->lastExecutionError)) {
+            if (!$this->connection or !isset($this->lastExecutionError)) {
                 $this->lastExecutionError = NULL;
             }
 
@@ -179,11 +180,7 @@
          * @return int|NULL
          */
         public function getLastExecutionAffectedRownCount() {
-            if (!$this->connection) {
-                return NULL;
-            }
-
-            if (!isset($this->lastAffectedRowCount)) {
+            if (!$this->connection or !isset($this->lastAffectedRowCount)) {
                 $this->lastAffectedRowCount = NULL;
             }
 
@@ -214,5 +211,20 @@
          */
         public function reconnect() {
             $this->connection = new \PDO('mysql:hostname=' . $this->dbHost . ';dbname=' . $this->dbName, $this->dbUser, $this->dbPass);
+            $this->connection->setAttribute(\PDO::ATTR_EMULATE_PREPARES, true);
+        }
+
+        /**
+         * This method resets the last execution error to back NULL
+         */
+        public function resetLastExecutionError() {
+            $this->lastExecutionError = NULL;
+        }
+
+        /**
+         * This method resets the last execution affected row count back to zero
+         */
+        public function resetLastExecutionAffectedRowCount() {
+            $this->lastAffectedRowCount = 0;
         }
     }
