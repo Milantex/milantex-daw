@@ -129,9 +129,6 @@
             }
 
             $prep = $this->connection->prepare($sql);
-            if (!$prep) {
-                return NULL;
-            }
 
             $res = $prep->execute($parameters);
 
