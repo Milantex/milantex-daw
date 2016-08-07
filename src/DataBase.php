@@ -159,7 +159,7 @@
          * @return array|NULL
          */
         public function getLastExecutionError() {
-            if (!$this->connection or !isset($this->lastExecutionError)) {
+            if (!$this->connection || !isset($this->lastExecutionError)) {
                 $this->lastExecutionError = NULL;
             }
 
@@ -177,7 +177,7 @@
          * @return int|NULL
          */
         public function getLastExecutionAffectedRownCount() {
-            if (!$this->connection or !isset($this->lastAffectedRowCount)) {
+            if (!$this->connection || !isset($this->lastAffectedRowCount)) {
                 $this->lastAffectedRowCount = NULL;
             }
 
