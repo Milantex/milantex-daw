@@ -207,7 +207,7 @@
          * Try to reconnect to the database using stored connection parameters
          */
         public function reconnect() {
-            $this->connection = new \PDO('mysql:hostname=' . $this->dbHost . ';dbname=' . $this->dbName, $this->dbUser, $this->dbPass);
+            $this->connection = new \PDO('mysql:hostname=' . $this->dbHost . ';dbname=' . $this->dbName . ';charset=utf8', $this->dbUser, $this->dbPass);
             $this->connection->setAttribute(\PDO::ATTR_EMULATE_PREPARES, true);
         }
 
