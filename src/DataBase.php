@@ -86,7 +86,13 @@
                 return NULL;
             }
 
-            return $prep->fetch(\PDO::FETCH_OBJ);
+            $ret = $prep->fetch(\PDO::FETCH_OBJ);
+            
+            if ($ret === FALSE) {
+                return NULL;
+            }
+            
+            return $ret;
         }
 
         /**
@@ -112,7 +118,13 @@
                 return [];
             }
 
-            return $prep->fetchAll(\PDO::FETCH_OBJ);
+			$ret = $prep->fetchAll(\PDO::FETCH_OBJ);
+            
+            if ($ret === FALSE) {
+                return [];
+            }
+            
+            return $ret;
         }
 
         /**
